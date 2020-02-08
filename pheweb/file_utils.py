@@ -46,6 +46,8 @@ common_filepaths = {
     'top-hits-tsv': get_generated_path('top_hits.tsv'),
     'top-loci': get_generated_path('top_loci.json'),
     'top-loci-tsv': get_generated_path('top_loci.tsv'),
+    'annot': get_generated_path('annot.json'),
+    'annot-tsv': get_generated_path('annot.tsv'),
     'phenotypes_summary': get_generated_path('phenotypes.json'),
     'parsed':    (lambda phenocode: get_generated_path('parsed', phenocode)),
     'pheno':     (lambda phenocode: get_generated_path('pheno', phenocode)),

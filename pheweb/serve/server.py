@@ -125,6 +125,19 @@ def api_top_hits():
 def download_top_hits():
     return send_file(common_filepaths['top-hits-tsv'])
 
+@bp.route('/annot')
+@check_auth
+def annot_page():
+    return render_template('annot.html')
+@bp.route('/api/annot.json')
+@check_auth
+def api_annot():
+    return send_file(common_filepaths['annot'])
+@bp.route('/download/annot.tsv')
+@check_auth
+def download_annot():
+    return send_file(common_filepaths['annot-tsv'])
+
 @bp.route('/phenotypes')
 @check_auth
 def phenotypes_page():
@@ -333,6 +346,10 @@ def homepage():
 def about_page():
     return render_template('about.html')
 
+@app.route('/files/<path:path>')
+def static_file(path):
+    return app.send_static_file(path)
+
 def die(message='no message', exception=None):
     if exception is not None:
         print(exception)
@@ -381,7 +398,7 @@ if 'login' in conf:
 
 
     @bp.route('/logout')
-    @check_auth
+    @check_auth 
     def logout():
         print(current_user.email, 'logged out')
         logout_user()
