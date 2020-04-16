@@ -286,7 +286,7 @@ def _ensure_conf():
         ('maf', {
             'type': float,
             'range': [0, 0.5],
-            'sigfigs': 2,
+            'sigfigs': 3,
             'tooltip_lztemplate': {'transform': '|percent'},
             'display': 'MAF',
         }),
@@ -315,6 +315,29 @@ def _ensure_conf():
             'sigfigs': 2,
             'nullable': True,
             'display': 'Tstat',
+        }),
+        ('csq', {
+            'aliases': ['consequence','CSQ','BSQ','ANN'],
+            'tooltip_underscoretemplate': False,
+            'tooltip_lztemplate': False,
+            'nullable': True,
+            'display': 'Consequence',
+        }),
+        ('af_cases', {
+            'type': float,
+            'sigfigs': 3,
+            'range': [0, 1],
+            'tooltip_lztemplate': {'transform': '|percent'},
+            'nullable': True,
+            'display': 'AF_Cases',
+        }),
+        ('af_controls', {
+            'type': float,
+            'sigfigs': 3,
+            'range': [0, 1],
+            'tooltip_lztemplate': {'transform': '|percent'},
+            'nullable': True,
+            'display': 'AF_Controls',
         }),
     ])
 

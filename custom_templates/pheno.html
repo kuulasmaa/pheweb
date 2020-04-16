@@ -2,6 +2,9 @@
 
 
 {% block in_head %}
+{# include LocusZoom vendor bundle to get d3 #}
+<script src="https://unpkg.com/locuszoom@{{ config.LZJS_VERSION }}/dist/locuszoom.vendor.min.js" type="text/javascript"></script>
+<script src="https://unpkg.com/d3-tip@0.6.7/index.js"></script>
 <script src="{{ url_for('.static', filename='vendor/stream_table-1.1.1.min.js') }}" type="text/javascript"></script>
 <script src="{{ url_for('.static', filename='pheno.js') }}" type="text/javascript"></script>
 {% if show_correlations %}
@@ -181,6 +184,10 @@
         <tr>
           <th>Variant</th>
           <th>Nearest Gene(s)</th>
+          <th>R2</th>
+          <th>Consequence</th>
+          <th>AF Cases</th>
+          <th>AF Controls</th>
           <th>MAF</th>
           <th>OR</th>
           <th>P-value</th>
@@ -227,6 +234,10 @@
     <i><%= g %></i></a><%= (i+1 !== ngs.length)?',':'' %>
   <% }) %>
 </td>
+<td><%= (v.r2)? v.r2.toPrecision(2) : "" %></td>
+<td><%= (v.csq)? v.csq : "" %></td>
+<td><%= (v.af_cases)? v.af_cases.toPrecision(2) : "" %></td>
+<td><%= (v.af_controls)? v.af_controls.toPrecision(2) : "" %></td>
 <td><%= (v.maf)? v.maf.toPrecision(2) : (v.af)? Math.min(v.af, 1-v.af).toPrecision(2) : (v.ac)? v.ac : "" %></td>
 <td><%= v.or %></td>
 <td><%= v.pval.toExponential(1) %></td>

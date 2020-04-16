@@ -25,23 +25,43 @@ TR_V_gene
 '''.split())
 bad_genetypes = set('''
 3prime_overlapping_ncRNA
+IG_C_pseudogene
+IG_J_pseudogene
+IG_V_pseudogene
+IG_pseudogene
+Mt_rRNA
+Mt_tRNA
+TEC
+TR_J_pseudogene
+TR_V_pseudogene
 antisense
 bidirectional_promoter_lncRNA
 lincRNA
 macro_lncRNA
 miRNA
 misc_RNA
-Mt_rRNA
-Mt_tRNA
 non_coding
+polymorphic_pseudogene
+processed_pseudogene
 processed_transcript
+protein_coding
+pseudogene
 rRNA
+rRNA_pseudogene
+ribozyme
+sRNA
 scRNA
+scaRNA
 sense_intronic
 sense_overlapping
 snRNA
 snoRNA
-TEC
+transcribed_processed_pseudogene
+transcribed_unitary_pseudogene
+transcribed_unprocessed_pseudogene
+translated_processed_pseudogene
+unitary_pseudogene
+unprocessed_pseudogene
 vaultRNA
 '''.split()).union(good_genetypes)
 
@@ -161,7 +181,8 @@ def run(argv):
         if not os.path.exists(gencode_filepath):
             make_basedir(gencode_filepath)
             wget.download(
-                url="ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_{0}/GRCh37_mapping/gencode.v{0}lift37.annotation.gtf.gz".format(genes_version),
+                #url="ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_{0}/GRCh37_mapping/gencode.v{0}lift37.annotation.gtf.gz".format(genes_version),
+                url="ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_{0}/gencode.v{0}.annotation.gtf.gz".format(genes_version),
                 out=gencode_filepath
             )
             print('')

@@ -48,12 +48,12 @@ LocusZoom.TransformationFunctions.set("percent", function(x) {
     var remoteBase = "https://portaldev.sph.umich.edu/api/v1/";
     var data_sources = new LocusZoom.DataSources()
         .add("assoc", ["AssociationPheWeb", localBase])
-        .add("catalog", ["GwasCatalogLZ", {url: remoteBase + 'annotation/gwascatalog/results/', params: { source: 2, build: "GRCh37" }}])
+        .add("catalog", ["GwasCatalogLZ", {url: remoteBase + 'annotation/gwascatalog/results/', params: { build: "GRCh38" }}])
         .add("ld", ["LDLZ2", { url: "https://portaldev.sph.umich.edu/ld/",
-            params: { source: '1000G', build: 'GRCh37', population: 'ALL' }
+            params: { source: '1000G', build: 'GRCh38', population: 'ALL' }
         }])
-        .add("gene", ["GeneLZ", { url: remoteBase + "annotation/genes/", params: {source: 2} }])
-        .add("recomb", ["RecombLZ", { url: remoteBase + "annotation/recomb/results/", params: {source: 15} }]);
+        .add("gene", ["GeneLZ", { url: remoteBase + "annotation/genes/", params: { build: "GRCh38" } }])
+        .add("recomb", ["RecombLZ", { url: remoteBase + "annotation/recomb/results/", params: { build: "GRCh38" } }]);
 
     LocusZoom.TransformationFunctions.set("neglog10_or_100", function(x) {
         if (x === 0) return 100;

@@ -23,8 +23,8 @@ def get_cacheable_file_location(default_relative_dir, basename):
     mkdir_p(get_generated_path(default_relative_dir))
     return get_generated_path(default_relative_dir, basename)
 
-dbsnp_version = '150'
-genes_version = '29'
+dbsnp_version = '151'
+genes_version = '30'
 
 common_filepaths = {
     'phenolist': os.path.join(conf.data_dir, 'pheno-list.json'),

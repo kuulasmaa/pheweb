@@ -5,7 +5,7 @@ from .load_utils import run_script
 import os
 import wget
 
-raw_filepath = get_generated_path('sites/dbSNP/dbsnp-b{}-GRCh37.gz'.format(dbsnp_version))
+raw_filepath = get_generated_path('sites/dbSNP/dbsnp-b{}-GRCh38.gz'.format(dbsnp_version))
 clean_filepath = common_filepaths['rsids']
 
 def run(argv):
@@ -15,8 +15,8 @@ def run(argv):
 
             # dbSNP downloads are described at <https://www.ncbi.nlm.nih.gov/variation/docs/human_variation_vcf/>
             # This file includes chr-pos-ref-alt-rsid and 4X a bunch of useless columns:
-            dbsnp_url = 'ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606_b{}_GRCh37p13/VCF/00-All.vcf.gz'.format(dbsnp_version)
-
+            #dbsnp_url = 'ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606_b{}_GRCh37p13/VCF/00-All.vcf.gz'.format(dbsnp_version)
+            dbsnp_url = 'ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606_b{}_GRCh38p7/VCF/00-All.vcf.gz'.format(dbsnp_version)
             print('Downloading dbsnp!')
             make_basedir(raw_filepath)
             raw_tmp_filepath = get_tmp_path(raw_filepath)

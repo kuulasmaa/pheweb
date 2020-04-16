@@ -55,6 +55,9 @@
           <th>Top variant in loci</th>
           <th>Phenotype</th>
           <th class="nearest_genes_col">Nearest Gene(s)</th>
+          <th>Consequence</th>
+          <th>AF Cases</th>
+          <th>AF Controls</th>
           <th>MAF</th>
           <th>OR</th>
           <th>P-value</th>
@@ -87,6 +90,9 @@
         <i><%= g %></i></a><%= (i+1 !== ngs.length)?',':'' %>
       <% }) %>
     </td>
+    <td><%= (h.csq)? v.csq : "" %></td>
+    <td><%= (h.af_cases)? h.af_cases.toPrecision(2) : "" %></td>
+    <td><%= (h.af_controls)? h.af_controls.toPrecision(2) : "" %></td>
     <td><%= (h.maf)? h.maf.toPrecision(2) : (h.af)? Math.min(h.af, 1-h.af).toPrecision(2) : (h.ac)? h.ac : "" %></td>
     <td><%= h.or %></td>
     <td><%= (h.pval == 0) ? '~0' : h.pval.toExponential(1) %></td>
