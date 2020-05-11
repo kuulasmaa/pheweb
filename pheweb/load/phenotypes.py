@@ -24,6 +24,9 @@ def get_phenotypes_including_top_variants():
         if 'category' in pheno: ret['category'] = pheno['category']
         if 'phenostring' in pheno: ret['phenostring'] = pheno['phenostring']
         if isinstance(ret['nearest_genes'], list): ret['nearest_genes'] = ','.join(ret['nearest_genes'])
+        if 'num_cases' in pheno: ret['num_cases'] = pheno['num_cases']
+        if 'num_controls' in pheno: ret['num_controls'] = pheno['num_controls']
+        if 'num_samples' in pheno: ret['num_samples'] = pheno['num_samples']
         yield ret
 
 def run(argv):

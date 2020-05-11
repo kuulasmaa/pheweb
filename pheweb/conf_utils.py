@@ -208,7 +208,7 @@ def _ensure_conf():
 
     default_per_variant_fields = OrderedDict([
         ('chrom', {
-            'aliases': ['#CHROM', 'chr'],
+            'aliases': ['#CHROM', 'chr', '#chrom'],
             'required': True,
             'tooltip_underscoretemplate': '<b><%= d.chrom %>:<%= d.pos.toLocaleString() %> <%= d.ref %> / <%= d.alt %></b><br>',
             'tooltip_lztemplate': False,
@@ -285,7 +285,7 @@ def _ensure_conf():
         }),
         ('maf', {
             'type': float,
-            'range': [0, 0.5],
+            'range': [0, 1],
             'sigfigs': 3,
             'tooltip_lztemplate': {'transform': '|percent'},
             'display': 'MAF',
@@ -324,6 +324,7 @@ def _ensure_conf():
             'display': 'Consequence',
         }),
         ('af_cases', {
+            'aliases': ['maf_cases'],
             'type': float,
             'sigfigs': 3,
             'range': [0, 1],
@@ -332,6 +333,7 @@ def _ensure_conf():
             'display': 'AF_Cases',
         }),
         ('af_controls', {
+            'aliases': ['maf_controls'],
             'type': float,
             'sigfigs': 3,
             'range': [0, 1],
