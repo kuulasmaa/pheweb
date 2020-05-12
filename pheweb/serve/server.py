@@ -36,6 +36,7 @@ app.config['LZJS_VERSION'] = conf['lzjs_version']  # TODO: True asset mgmt / bui
 app.config['LZJS_VERSION_PHEWAS'] = conf['lzjs_version_phewas']
 app.config['URLPREFIX'] = conf.urlprefix.rstrip('/')
 app.config['USE_WHITELIST'] = 'login' in conf and 'whitelist' in conf.login
+app.config['BUILD'] = conf['build']
 if os.path.isdir(conf.custom_templates):
     app.jinja_loader.searchpath.insert(0, conf.custom_templates)
 
