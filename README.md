@@ -26,7 +26,8 @@ pip3 install pheweb
    - You can put it wherever you want and name it whatever you want.
 
 2. If you want to configure any options, make a file `config.py` in your data directory. Some options you can set are:
-
+   
+   - `build`: genome version ('19', '37', '38'). This is mandatory! This defines PheWeb wide genome version from summary stat pre-processing to site deployment and browsing.
    - Minor Allele Frequency cutoffs:
      - `assoc_min_maf`: an association (between a phenotype and variant) will only be included if its MAF is greater than this value.  (default: `0`, but it saves disk space during loading, so I usually use at least `variant_inclusion_maf / 2`)
      - `variant_inclusion_maf`: a variant will only be included if it has some associations with MAF greater than this value.  That is, if some or all associations for a variant are above `assoc_min_maf`, but none are above `variant_inclusion_maf`, that entire variant (including all of its associations with phenotypes) will be dropped.  If any association's MAF is above `variant_inclusion_maf`, all associations for that variant that are above `assoc_min_maf` will be included. (default: `0`, but I recommend at least `0.005`)
@@ -68,9 +69,12 @@ You may also have columns for:
 | standard error of effect size | `sebeta` | | number |
 | odds ratio | `or` | | number |
 | R2 | `r2` | | number |
+| csq | `csq` | `consequence`,`bsq`,`ann` | predicted consequence of the variant |
 | number of samples | `num_samples` | `ns`, `n` | integer, must be the same for every variant in its phenotype |
 | number of controls | `num_controls` | `ns.ctrl`, `n_controls` | integer, must be the same for every variant in its phenotype |
 | number of cases | `num_cases` | `ns.case`, `n_cases` | integer, must be the same for every variant in its phenotype |
+| allele frequency among cases | `af_cases` | | number in (0,1) |
+| allele frequency among controls | `af_controls` | | number in (0,1) |
 
 
 ### 4. Make a list of your phenotypes
@@ -92,8 +96,9 @@ Inside of your data directory, you need a file named `pheno-list.json` that look
 
 `phenocode` must only contain letters, numbers, or any of `_-~`.
 
-That example file only includes the columns `assoc_files` (a list of paths to association files) and `phenocode` (a string representing your phenotype that is valid in a URL). If you want, you can also include:
+That example file only includes the columns `assoc_files` (a list of paths to association files) and `phenocode` (a string representing your phenotype that is valid in a URL). The `pheno-list.json` file must also contain `stat_model` which determine used statistical model ('binary' or 'linear'). This parameter determines whether `OR`, `af_cases`, `af_controls` or `BETA` coefficients are shown in the summary statistics.
 
+If you want, you can also include:
 - `phenostring`: a string that is more descriptive than `phenocode` and will be shown in several places
 - `category`: a string that will group together phenotypes in the PheWAS plot and also be shown in several places
 - `num_cases`, `num_controls`, and/or `num_samples`: numbers of strings which will be shown in several places
