@@ -11,7 +11,7 @@
 <script src="https://unpkg.com/locuszoom@{{ config.LZJS_VERSION }}/dist/locuszoom.vendor.min.js" type="text/javascript"></script>
 <script src="https://unpkg.com/locuszoom@{{ config.LZJS_VERSION }}/dist/locuszoom.app.min.js" type="text/javascript"></script>
 
-<script src="{{ url_for('.static', filename='region.js') }}"></script>
+<script src="{{ url_for('.static', filename='region.js') }}" data-build="{{ config.BUILD }}" id="region_js" type="text/javascript"></script>
 <link  href="{{ url_for('.static', filename='region.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 

@@ -183,8 +183,18 @@
       <thead>
         <tr>
           <th>Variant</th>
-          <th>Nearest Gene(s)</th>
+          <th class="nearest_genes_col">Nearest Gene(s)</th>
           <th>MAF</th>
+          <th>R2</th>
+          <th>Consequence</th>
+          {% if pheno.stat_model == 'linear' %}
+          <th>BETA</th>
+          {% endif %}
+          {% if pheno.stat_model == 'binary' %}
+          <th>AF Cases</th>
+          <th>AF Controls</th>
+          <th>OR</th>
+          {% endif %}
           <th>P-value</th>
         </tr>
       </thead>
@@ -223,9 +233,24 @@
     <%= v.chrom %>:<%= v.pos.toLocaleString() %> <%= v.ref %> / <%= v.alt %>
     <% if (v.rsids) { %>(<%= v.rsids.replace(/,/g, ', ') %>)<% } %>
 </a></td>
-<td><i><%= v.nearest_genes.replace(/,/g, ', ') %></i></td>
+<td class="nearest_genes_col">
+  <% var ngs = v.nearest_genes.split(","); ngs.forEach(function(g, i) { %>
+  <a style="color:black" href="{{ url_for('.region_page', phenocode='', region='').rstrip('/') }}/<%= window.pheno %>/gene/<%= g %>?include=<%= v.chrom %>-<%= v.pos %>">
+    <i><%= g %></i></a><%= (i+1 !== ngs.length)?',':'' %>
+  <% }) %>
+</td>
 <td><%= (v.maf)? v.maf.toPrecision(2) : (v.af)? Math.min(v.af, 1-v.af).toPrecision(2) : (v.ac)? v.ac : "" %></td>
-<td><%= v.pval.toExponential(1) %></td>
+<td><%= (v.r2)? v.r2.toPrecision(2) : "" %></td>
+<td><%= (v.csq)? v.csq : "" %></td>
+{% if pheno.stat_model == 'linear' %}
+<td><%= (v.beta)? v.beta.toPrecision(3) : "" %></td>
+{% endif %}
+{% if pheno.stat_model == 'binary' %}
+<td><%= (v.af_cases)? v.af_cases.toPrecision(2) : "" %></td>
+<td><%= (v.af_controls)? v.af_controls.toPrecision(2) : "" %></td>
+<td><%= (v.or)? v.or.toPrecision(2) : "" %></td>
+{% endif %}
+<td><%= (v.pval == 0) ? '~0' : v.pval.toExponential(1) %></td>
 </tr>
 </script>
 {% endblock %}

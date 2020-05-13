@@ -139,6 +139,7 @@ def _ensure_conf():
 
     conf.set_default_value('allow_variant_json_cors', False)
     conf.set_default_value('urlprefix', '')
+    conf.set_default_value('build', '19')
 
     if 'minimum_maf' in conf:
         raise utils.PheWebError("minimum_maf has been deprecated.  Please remove it and use assoc_min_maf and/or variant_inclusion_maf instead")
@@ -208,7 +209,7 @@ def _ensure_conf():
 
     default_per_variant_fields = OrderedDict([
         ('chrom', {
-            'aliases': ['#CHROM', 'chr', '#chrom'],
+            'aliases': ['#CHROM', 'chr'],
             'required': True,
             'tooltip_underscoretemplate': '<b><%= d.chrom %>:<%= d.pos.toLocaleString() %> <%= d.ref %> / <%= d.alt %></b><br>',
             'tooltip_lztemplate': False,
@@ -234,6 +235,7 @@ def _ensure_conf():
             'tooltip_lztemplate': False,
         }),
         ('rsids', {
+            'aliases': ['RS', 'rs', 'rsid', 'rsids'],
             'from_assoc_files': False,
             'tooltip_underscoretemplate': '<% _.each(_.filter((d.rsids||"").split(",")), function(rsid) { %>rsid: <%= rsid %><br><% }) %>',
             'tooltip_lztemplate': {'condition': 'rsid', 'template': '<strong>{{rsid}}</strong><br>'},
@@ -247,7 +249,7 @@ def _ensure_conf():
 
     default_per_assoc_fields = OrderedDict([
         ('pval', {
-            'aliases': ['PVALUE', 'P'],
+            'aliases': ['PVALUE', 'P', 'p-value'],
             'required': True,
             'type': float,
             'nullable': True,
@@ -269,7 +271,7 @@ def _ensure_conf():
             'display': 'Beta',
         }),
         ('sebeta', {
-            'aliases': ['se'],
+            'aliases': ['se', 'beta_se'],
             'type': float,
             'nullable': True,
             'sigfigs': 2,
@@ -291,7 +293,7 @@ def _ensure_conf():
             'display': 'MAF',
         }),
         ('af', {
-            'aliases': ['A1FREQ', 'FRQ'],
+            'aliases': ['A1FREQ', 'FRQ', 'FREQ'],
             'type': float,
             'range': [0, 1],
             'proportion_sigfigs': 2,
@@ -299,32 +301,35 @@ def _ensure_conf():
             'display': 'AF',
         }),
         ('ac', {
+            'aliases': ['AC'],
             'type': float,
             'range': [0, None],
             'decimals': 1,
             'display': 'AC',
         }),
         ('r2', {
+            'aliases': ['INFO'],
             'type': float,
             'proportion_sigfigs': 2,
             'nullable': True,
             'display': 'R2',
         }),
         ('tstat', {
+            'aliases': ['STAT','TSTAT'],
             'type': float,
             'sigfigs': 2,
             'nullable': True,
             'display': 'Tstat',
         }),
         ('csq', {
-            'aliases': ['consequence','CSQ','BSQ','ANN'],
+            'aliases': ['consequence','BSQ','ANN'],
             'tooltip_underscoretemplate': False,
             'tooltip_lztemplate': False,
             'nullable': True,
             'display': 'Consequence',
         }),
         ('af_cases', {
-            'aliases': ['maf_cases'],
+            'aliases': ['freq_cases'],
             'type': float,
             'sigfigs': 3,
             'range': [0, 1],
@@ -333,7 +338,7 @@ def _ensure_conf():
             'display': 'AF_Cases',
         }),
         ('af_controls', {
-            'aliases': ['maf_controls'],
+            'aliases': ['freq_controls'],
             'type': float,
             'sigfigs': 3,
             'range': [0, 1],
@@ -364,6 +369,12 @@ def _ensure_conf():
             'nullable': True,
             'range': [0, None],
             'display': '#samples',
+        }),
+        ('stat_model', {
+            'aliases': ['model'],
+            'type': str,
+            'nullable': False,
+            'display': 'Model',
         }),
         # TODO: phenocode, phenostring, category, &c?
         # TODO: include `assoc_files` with {never_send: True}?

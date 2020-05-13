@@ -27,6 +27,7 @@ def get_phenotypes_including_top_variants():
         if 'num_cases' in pheno: ret['num_cases'] = pheno['num_cases']
         if 'num_controls' in pheno: ret['num_controls'] = pheno['num_controls']
         if 'num_samples' in pheno: ret['num_samples'] = pheno['num_samples']
+        if 'stat_model' in pheno: ret['stat_model'] = pheno['stat_model']
         yield ret
 
 def run(argv):

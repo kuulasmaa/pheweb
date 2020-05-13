@@ -1,5 +1,7 @@
 'use strict';
 
+var build = document.getElementById("region_js").getAttribute("data-build");
+
 LocusZoom.KnownDataSources.extend("AssociationLZ", "AssociationPheWeb", {
     getURL: function (state, chain, fields) {
         return this.url + "results/?filter=chromosome in  '" + state.chr + "'" +
@@ -46,14 +48,27 @@ LocusZoom.TransformationFunctions.set("percent", function(x) {
     // Define LocusZoom Data Sources object
     var localBase = window.model.urlprefix + "/api/region/" + window.pheno.phenocode + "/lz-";
     var remoteBase = "https://portaldev.sph.umich.edu/api/v1/";
-    var data_sources = new LocusZoom.DataSources()
-        .add("assoc", ["AssociationPheWeb", localBase])
-        .add("catalog", ["GwasCatalogLZ", {url: remoteBase + 'annotation/gwascatalog/results/', params: { build: "GRCh38" }}])
-        .add("ld", ["LDLZ2", { url: "https://portaldev.sph.umich.edu/ld/",
-            params: { source: '1000G', build: 'GRCh38', population: 'ALL' }
-        }])
-        .add("gene", ["GeneLZ", { url: remoteBase + "annotation/genes/", params: { build: "GRCh38" } }])
-        .add("recomb", ["RecombLZ", { url: remoteBase + "annotation/recomb/results/", params: { build: "GRCh38" } }]);
+
+    if ( build == '19' || build =='37' ) {
+        var data_sources = new LocusZoom.DataSources()
+            .add("assoc", ["AssociationPheWeb", localBase])
+            .add("catalog", ["GwasCatalogLZ", {url: remoteBase + 'annotation/gwascatalog/results/', params: { source: 2, build: "GRCh37" }}])
+            .add("ld", ["LDLZ2", { url: "https://portaldev.sph.umich.edu/ld/",
+                params: { source: '1000G', build: 'GRCh37', population: 'ALL' }
+            }])
+            .add("gene", ["GeneLZ", { url: remoteBase + "annotation/genes/", params: { source: 2 } }])
+            .add("recomb", ["RecombLZ", { url: remoteBase + "annotation/recomb/results/", params: { source: 15 } }]);
+    } else if ( build == '38' ) {
+        var data_sources = new LocusZoom.DataSources()
+            .add("assoc", ["AssociationPheWeb", localBase])
+            .add("catalog", ["GwasCatalogLZ", {url: remoteBase + 'annotation/gwascatalog/results/', params: { build: "GRCh38" }}])
+            .add("ld", ["LDLZ2", { url: "https://portaldev.sph.umich.edu/ld/",
+                params: { source: '1000G', build: 'GRCh38', population: 'ALL' }
+            }])
+            .add("gene", ["GeneLZ", { url: remoteBase + "annotation/genes/", params: { build: "GRCh38" } }])
+            .add("recomb", ["RecombLZ", { url: remoteBase + "annotation/recomb/results/", params: { build: "GRCh38" } }]);
+    }
+
 
     LocusZoom.TransformationFunctions.set("neglog10_or_100", function(x) {
         if (x === 0) return 100;
@@ -333,7 +348,7 @@ LocusZoom.TransformationFunctions.set("percent", function(x) {
                                    "<div>Gene ID: <strong>{{gene_id}}</strong></div>" +
                                    "<div>Transcript ID: <strong>{{transcript_id}}</strong></div>" +
                                    "<div style=\"clear: both;\"></div>" +
-                                   "<table width=\"100%\"><tr><td style=\"text-align: right;\"><a href=\"http://exac.broadinstitute.org/gene/{{gene_id}}\" target=\"_new\">More data on ExAC</a> and <a href=\"http://bravo.sph.umich.edu/freeze5/hg38/gene/{{gene_id}}\" target=\"_new\">Bravo</a></td></tr></table>")
+                                   "<table width=\"100%\"><tr><td style=\"text-align: right;\"><a href=\"https://gnomad.broadinstitute.org/gene/{{gene_id}}\" target=\"_new\">More data on gnomAD</a> and <a href=\"https://www.wikigenes.org/search.html?search={{gene_id}}\" target=\"_new\">wikigenes</a></td></tr></table>")
                         },
                         label_exon_spacing: 3,
                         exon_height: 8,

@@ -54,10 +54,13 @@
           <th>Phenotype</th>
           <th class="nearest_genes_col">Nearest Gene(s)</th>
           <th>MAF</th>
+          <th>R2</th>
+          <th>Consequence</th>
+          <th>OR/BETA</th>
           <th>P-value</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody> 
       </tbody>
     </table>
   </div>
@@ -85,6 +88,9 @@
       <% }) %>
     </td>
     <td><%= (h.maf)? h.maf.toPrecision(2) : (h.af)? Math.min(h.af, 1-h.af).toPrecision(2) : (h.ac)? h.ac : "" %></td>
+    <td><%= (h.r2)? h.r2.toPrecision(2) : "" %></td>
+    <td><%= (h.csq)? h.csq : "" %></td>
+    <td><%= (h.beta)? h.beta.toPrecision(3) : (h.or)? h.or.toPrecision(2) : "" %></td>
     <td><%= (h.pval == 0) ? '~0' : h.pval.toExponential(1) %></td>
   </tr>
 </script>

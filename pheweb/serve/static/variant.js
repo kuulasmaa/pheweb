@@ -1,5 +1,7 @@
 'use strict';
 
+var build = document.getElementById("variant_js").getAttribute("data-build");
+
 function deepcopy(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
@@ -242,10 +244,14 @@ LocusZoom.ScaleFunctions.add("effect_direction", function(parameters, input){
 
 // Check Clinvar and render link.
 (function() {
-    var clinvar_api_template = _.template('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=clinvar&term=<%= chrom %>[Chromosome]%20AND%20<%= pos %>[Base%20Position%20for%20Assembly%20GRCh38]&retmode=json');
+    if ( build == '19' || build =='37' ) {
+        var clinvar_api_template = _.template('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=clinvar&term=<%= chrom %>[Chromosome]%20AND%20<%= pos %>[Base%20Position%20for%20Assembly%20GRCh37]&retmode=json');
+        var clinvar_link_template = _.template('https://www.ncbi.nlm.nih.gov/clinvar?term=<%= chrom %>[Chromosome]%20AND%20<%= pos %>[Base%20Position%20for%20Assembly%20GRCh37]');
+    } else if ( build == '38' ) {
+        var clinvar_api_template = _.template('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=clinvar&term=<%= chrom %>[Chromosome]%20AND%20<%= pos %>[Base%20Position%20for%20Assembly%20GRCh38]&retmode=json');
+        var clinvar_link_template = _.template('https://www.ncbi.nlm.nih.gov/clinvar?term=<%= chrom %>[Chromosome]%20AND%20<%= pos %>[Base%20Position%20for%20Assembly%20GRCh38]');
+    }
     var clinvar_api_url = clinvar_api_template(window.variant);
-
-    var clinvar_link_template = _.template('https://www.ncbi.nlm.nih.gov/clinvar?term=<%= chrom %>[Chromosome]%20AND%20<%= pos %>[Base%20Position%20for%20Assembly%20GRCh38]');
     var clinvar_link_url = clinvar_link_template(window.variant);
 
     $.getJSON(clinvar_api_url).done(function(result) {

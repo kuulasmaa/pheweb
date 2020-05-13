@@ -13,7 +13,7 @@
 <script src="https://unpkg.com/locuszoom@{{ config.LZJS_VERSION_PHEWAS }}/dist/locuszoom.vendor.min.js" type="text/javascript"></script>
 <script src="https://unpkg.com/locuszoom@{{ config.LZJS_VERSION_PHEWAS }}/dist/locuszoom.app.min.js" type="text/javascript"></script>
 
-<script src="{{ url_for('.static', filename='variant.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('.static', filename='variant.js') }}" data-build="{{ config.BUILD }}" id="variant_js" type="text/javascript"></script>
 <style type="text/css">
 .variant-info > p {
   margin-bottom: 0;
@@ -36,7 +36,7 @@
         <span id="maf-range"></span>
 {#        {% if variant.ac %}<p>AC: {{ variant.ac }}</p>{% endif %} #}
         <p>View on
-          <a href="http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg19&highlight=hg19.chr{{ variant.chrom }}%3A{ variant.pos }}-{{ variant.pos }}&position=chr{{ variant.chrom }}%3A{{ variant.pos - 200000 }}-{{ variant.pos + 200000 }}">UCSC</a>
+          <a href="http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg{{ config.BUILD }}&highlight=hg{{ config.BUILD }}.chr{{ variant.chrom }}%3A{ variant.pos }}-{{ variant.pos }}&position=chr{{ variant.chrom }}%3A{{ variant.pos - 200000 }}-{{ variant.pos + 200000 }}">UCSC</a>
           {% with rsids = (variant.rsids.split(',') if variant.rsids else []) %}
             {% if rsids|length == 1 %}
               , <a href="https://www.ebi.ac.uk/gwas/search?query={{ rsids[0] }}">GWAS Catalog</a>
@@ -78,6 +78,7 @@
         <tr>
           <th>Category</th>
           <th>Phenotype</th>
+          <th>OR/BETA</th>
           <th>P-value</th>
           <th>Number of samples</th>
         </tr>
@@ -128,6 +129,7 @@ OR: <%= d.or.toExponential(1) %><br>
       <%= d.category %>
     </td>
     <td><a style="color:black" href="{{ url_for('.pheno_page', phenocode='').rstrip('/') }}/<%= d.phenocode %>"><%= d.phenostring || d.phenocode %></a></td>
+    <td><%= (d.beta)? d.beta.toPrecision(3) : (d.or)? d.or.toPrecision(2) : "" %></td>
     <td><%= d.pval.toExponential(1) %></td>
     <td><% if (d.num_cases) { %>
       <%= d.num_cases %> / <%= d.num_controls %>
@@ -135,7 +137,7 @@ OR: <%= d.or.toExponential(1) %><br>
       <%= d.num_samples %>
       <% } %>
     </td>
-
+ 
   </tr>
 </script>
 

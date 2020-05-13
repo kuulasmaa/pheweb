@@ -1,6 +1,7 @@
 
 from ..utils import chrom_order, chrom_aliases, PheWebError
 from ..file_utils import get_generated_path, get_tmp_path, make_basedir, genes_version, common_filepaths, read_gzip
+from ..conf_utils import conf
 
 import os
 import re
@@ -180,11 +181,16 @@ def run(argv):
         print('genes-{}.bed will be stored at {!r}'.format(genes_version, genes_filepath))
         if not os.path.exists(gencode_filepath):
             make_basedir(gencode_filepath)
-            wget.download(
-                #url="ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_{0}/GRCh37_mapping/gencode.v{0}lift37.annotation.gtf.gz".format(genes_version),
-                url="ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_{0}/gencode.v{0}.annotation.gtf.gz".format(genes_version),
-                out=gencode_filepath
-            )
+            if ( conf.build in ['19','37'] ):
+                wget.download(
+                    url="ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_{0}/GRCh37_mapping/gencode.v{0}lift37.annotation.gtf.gz".format(genes_version),
+                    out=gencode_filepath
+                )
+            elif ( conf.build == '38' ):
+                wget.download(
+                    url="ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_{0}/gencode.v{0}.annotation.gtf.gz".format(genes_version),
+                    out=gencode_filepath
+                )
             print('')
         genes = get_good_genes(gencode_filepath)
         genes = dedup_ensg(genes)
